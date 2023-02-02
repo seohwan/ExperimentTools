@@ -1,0 +1,10 @@
+# mode configuration alone/corun
+mode : 'alone'
+
+workload1_cmd : '/home/root/palloc_test/paper'
+workload1_cpuset : 4-5
+workload1_coloring : 0-15
+
+workload2_cmd : 'sh /home/root/palloc_test/keep.sh'
+workload2_cpuset : 6-7
+workload2_coloring : 16-31
