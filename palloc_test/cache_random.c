@@ -4,70 +4,26 @@
 #include <sys/types.h>
 #include <time.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <string>
 
-
-//#define CACHE_MIN (1024*512) /* smallest cache */
-//#define CACHE_MAX (1024*512) /* largest cache */
-#define CACHE_MIN (128) /* smallest cache */
-#define CACHE_MAX (1024*1024*2) /* largest cache */
-//#define CACHE_MIN (1024*1024*16) /* smallest cache */
-//#define CACHE_MAX (1024*1024*512) /* largest cache */
+#define CACHE_MIN (1024*128) /* smallest cache */
+#define CACHE_MAX (1024*128) /* largest cache */
+//#define CACHE_MIN (1024*1024*8) /* smallest cache */
+//#define CACHE_MAX (1024*1024*8) /* largest cache */
 #define SAMPLE 1000000 /* to get a larger time sample */
 #define TSTEPS 100
 
 int x[CACHE_MAX]; /* array going to randomly access through */
 
-void palloc_alloc(pid_t mypid, char* cpuset, char* color){
-	//printf("PID = %d\n",mypid);
-	char* cmd = (char *)malloc(sizeof(char*)*50);
-	//printf("%d %s %s \n",mypid, cpuset, color);
-	
-	if(!(cpuset[0]== '-')){
-		//cpuset configuration
-		sprintf(cmd, "/sys/fs/cgroup/cpuset/core%s",cpuset);
-		if(access(cmd, F_OK)<0){
-			sprintf(cmd, "mkdir /sys/fs/cgroup/cpuset/core%s",cpuset);
-			system(cmd);
-			sprintf(cmd, "echo %s > /sys/fs/cgroup/cpuset/core%s/cpuset.cpus",cpuset, cpuset);
-			system(cmd);
-		}
-		sprintf(cmd, "echo %d > /sys/fs/cgroup/cpuset/core%s/tasks",mypid,cpuset);
-		system(cmd);	
-	}
-	if(!(color[0]== '-')){
-		//coloring configuration
-		sprintf(cmd, "/sys/fs/cgroup/palloc/coloring%s",color);
-		if(access(cmd, F_OK)<0){
-			sprintf(cmd, "mkdir /sys/fs/cgroup/palloc/coloring%s",color);
-			system(cmd);
-			sprintf(cmd, "echo %s > /sys/fs/cgroup/palloc/coloring%s/palloc.bins",color, color);
-			system(cmd);
-		}
-		sprintf(cmd, "echo %d > /sys/fs/cgroup/palloc/coloring%s/tasks",mypid,color);
-		system(cmd);
-	}
-}
-
-int main(int argc, char **argv) {
-    int i, index;
+int main() {
+    int register i, index;
     int steps, csize, steps_all;
     double sec_temp, sec, WCET ;
 	struct timespec  begin, end;
 	long res;
-	std::string cpuset, color;
-	
+
 	FILE * fpw=fopen("data","w");
 	srand((unsigned)time(NULL));
 
-	//printf("%s %s", argv[1],argv[2]);
-	//printf("PID = %d\n",getpid());
-	palloc_alloc(getpid(), argv[1], argv[2]);
-	
-	//std:system(cmd);
-	//std::system("echo "+getpid() + "33");
     for (csize=CACHE_MIN; csize <= CACHE_MAX; csize=csize*2){
 		sec = 0.0;
 		sec_temp = 0.0;

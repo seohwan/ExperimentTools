@@ -1,5 +1,0 @@
-# enable configuration yes/no
-enable_palloc: 'yes'
-# palloc mask configuration 
-#palloc_mask : '0x000001f000'
-palloc_mask : '0x000001f000'

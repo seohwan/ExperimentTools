@@ -1,3 +1,0 @@
-workload : paper
-cpuset : 6
-task_coloring : 8
