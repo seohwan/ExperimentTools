@@ -1,4 +1,4 @@
-# Palloc script
+# Palloc test script
 
 ## How to use
 
