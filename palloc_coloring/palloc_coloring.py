@@ -12,7 +12,7 @@ def palloc_coloring():
     # lxc1
     cmd = "echo "+ str(lxc1_color) + " > /sys/fs/cgroup/palloc/lxc.payload.linux1/palloc.bins"
     os.system(cmd)
-    # lxc2, running bash
+    # lxc2
     cmd = "echo "+ str(lxc2_color) + " > /sys/fs/cgroup/palloc/lxc.payload.linux2/palloc.bins"
     os.system(cmd)
     
