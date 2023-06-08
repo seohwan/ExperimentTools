@@ -15,8 +15,6 @@ def palloc_coloring():
     # lxc2, running bash
     cmd = "echo "+ str(lxc2_color) + " > /sys/fs/cgroup/palloc/lxc.payload.linux2/palloc.bins"
     os.system(cmd)
-    cmd = "echo "+ str(os.getppid()) + " > /sys/fs/cgroup/palloc/lxc.payload.linux2/tasks"
-    os.system(cmd)
     
 if __name__ == '__main__':
     palloc_coloring()
